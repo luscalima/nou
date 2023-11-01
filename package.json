@@ -1,0 +1,30 @@
+{
+  "name": "nou_back",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The server side application of the nou project",
+  "main": "dist/index.js",
+  "author": "luscalima",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --format=esm",
+    "start": "node src/index.js",
+    "dev:tsc": "tsc --watch --preserveWatchOutput",
+    "dev:esbuild": "yarn build --watch",
+    "dev:node": "node --watch dist/index.js",
+    "dev": "yarn dev:tsc & yarn dev:esbuild & yarn dev:node"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.7",
+    "esbuild": "^0.19.5",
+    "kysely-codegen": "^0.11.0",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "kysely": "^0.26.3"
+  }
+}

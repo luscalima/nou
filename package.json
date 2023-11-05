@@ -12,11 +12,16 @@
     "dev:tsc": "tsc --watch --preserveWatchOutput",
     "dev:esbuild": "yarn build --watch",
     "dev:node": "node --watch dist/index.js",
-    "dev": "yarn dev:tsc & yarn dev:esbuild & yarn dev:node"
+    "dev": "yarn dev:tsc & yarn dev:esbuild & yarn dev:node",
+    "migrate:make": "node --loader esbuild-register/loader -r esbuild-register scripts/migration.ts",
+    "migrate:latest": "node --loader esbuild-register/loader -r esbuild-register scripts/migrate.ts",
+    "migrate:types": "kysely-codegen"
   },
   "devDependencies": {
     "@types/node": "^20.8.7",
+    "@types/pg": "^8.10.7",
     "esbuild": "^0.19.5",
+    "esbuild-register": "^3.5.0",
     "kysely-codegen": "^0.11.0",
     "typescript": "^5.2.2",
     "vitest": "^0.34.6"
@@ -25,6 +30,8 @@
     "node": ">=18"
   },
   "dependencies": {
-    "kysely": "^0.26.3"
+    "dotenv": "^16.3.1",
+    "kysely": "^0.26.3",
+    "pg": "^8.11.3"
   }
 }

@@ -7,28 +7,28 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Contacts {
-  created_at: Generated<Timestamp>;
+  createdAt: Generated<Timestamp>;
   email: string;
   id: Generated<string>;
   name: string;
-  updated_at: Generated<Timestamp>;
+  updatedAt: Generated<Timestamp>;
 }
 
 export interface Monitors {
-  created_at: Generated<Timestamp>;
+  createdAt: Generated<Timestamp>;
   id: Generated<string>;
   interval: Generated<number>;
   name: string;
-  updated_at: Generated<Timestamp>;
+  updatedAt: Generated<Timestamp>;
   url: string;
 }
 
 export interface Notifications {
-  contact_id: string;
-  created_at: Generated<Timestamp>;
+  contactId: string;
+  createdAt: Generated<Timestamp>;
   id: Generated<string>;
-  monitor_id: string;
-  updated_at: Generated<Timestamp>;
+  monitorId: string;
+  updatedAt: Generated<Timestamp>;
 }
 
 export interface DB {

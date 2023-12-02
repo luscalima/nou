@@ -6,16 +6,16 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('id', 'uuid', col =>
       col.primaryKey().defaultTo(sql`gen_random_uuid()`),
     )
-    .addColumn('monitor_id', 'uuid', col =>
+    .addColumn('monitorId', 'uuid', col =>
       col.notNull().unique().references('monitors.id'),
     )
-    .addColumn('contact_id', 'uuid', col =>
+    .addColumn('contactId', 'uuid', col =>
       col.notNull().unique().references('contacts.id'),
     )
-    .addColumn('created_at', 'timestamp', col =>
+    .addColumn('createdAt', 'timestamp', col =>
       col.notNull().defaultTo(sql`now()`),
     )
-    .addColumn('updated_at', 'timestamp', col =>
+    .addColumn('updatedAt', 'timestamp', col =>
       col.notNull().defaultTo(sql`now()`),
     )
     .execute()

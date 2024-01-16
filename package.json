@@ -21,7 +21,10 @@
   },
   "devDependencies": {
     "@types/node": "^20.8.7",
-    "@types/pg": "^8.10.7",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "kysely-codegen": "^0.11.0",
     "pkgroll": "^2.0.1",
     "tsx": "^4.7.0",

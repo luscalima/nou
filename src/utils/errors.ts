@@ -1,31 +1,15 @@
-import pg from "pg";
-
 export enum ErrorMessage {
 	INVALID_INPUT = "Invalid Input",
+	DUPLICATED_KEY = "Duplicated Key",
 	INTERNAL_SERVER_ERROR = "Internal Server Error",
 }
 
-export const ErrorValidator = {
-	isDatabaseError,
-};
-
-export const ErrorBuilder = {
-	dbContraintKey,
-	dbSanitizeMessage,
-};
-
-// Validation functions
-
-function isDatabaseError(error: any) {
-	return error instanceof pg.DatabaseError;
-}
-
-// Building functions
-
-function dbContraintKey(constraint: string | undefined) {
-	return constraint ? constraint.split("_")[1] : "";
-}
-
-function dbSanitizeMessage(message: string | undefined) {
-	return message ? message.replace(/".*"$/g, "").trim() : "";
+export class ProblemDetails {
+	constructor(
+		public readonly title: string,
+		public readonly status: number,
+		public readonly detail: string,
+		public readonly type?: string,
+		public readonly instance?: string,
+	) {}
 }

@@ -16,4 +16,16 @@ export class MonitorService {
 		await this.provider.create(monitor);
 		return monitor;
 	}
+
+	isDuplicatedKeyError(error: any) {
+		if (error.code !== "23505") {
+			return;
+		}
+
+		const key = error?.constraint?.split("_")[1] ?? "Key value";
+
+		return {
+			message: `${key} already exists`,
+		};
+	}
 }

@@ -3,7 +3,7 @@ import { z } from "zod";
 
 import { MonitorProvider } from "../providers/MonitorProvider";
 import { MonitorService } from "../services/MonitorService";
-import { ErrorBuilder, ErrorMessage, ErrorValidator } from "../utils/errors";
+import { ErrorMessage, ProblemDetails } from "../utils/errors";
 
 const monitorProvider = new MonitorProvider();
 const monitorService = new MonitorService(monitorProvider);
@@ -19,10 +19,16 @@ export class MonitorController {
 		const input = monitorSchema.safeParse(request.body);
 
 		if (!input.success) {
-			return reply.status(400).send({
-				message: ErrorMessage.INVALID_INPUT,
-				errors: input.error.flatten().fieldErrors,
-			});
+			const error = input.error.errors.at(0);
+			return reply
+				.status(400)
+				.send(
+					new ProblemDetails(
+						ErrorMessage.INVALID_INPUT,
+						400,
+						`${error?.path}: ${error?.message}`,
+					),
+				);
 		}
 
 		try {
@@ -33,16 +39,18 @@ export class MonitorController {
 			);
 			return reply.status(201).send(monitor);
 		} catch (error: any) {
-			const databaseError = ErrorValidator.isDatabaseError(error);
+			const duplicatedError = monitorService.isDuplicatedKeyError(error);
 
-			if (databaseError) {
-				return reply.status(500).send({
-					message: ErrorMessage.INTERNAL_SERVER_ERROR,
-					errors: {
-						[ErrorBuilder.dbContraintKey(error.constraint)]:
-							ErrorBuilder.dbSanitizeMessage(error.message),
-					},
-				});
+			if (duplicatedError) {
+				return reply
+					.status(409)
+					.send(
+						new ProblemDetails(
+							ErrorMessage.DUPLICATED_KEY,
+							409,
+							duplicatedError.message,
+						),
+					);
 			}
 
 			return reply.status(500).send();

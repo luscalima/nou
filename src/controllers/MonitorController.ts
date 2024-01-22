@@ -1,9 +1,9 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
+import { InvalidInputError } from "../models/errors";
 import { MonitorProvider } from "../providers/MonitorProvider";
 import { MonitorService } from "../services/MonitorService";
-import { ErrorMessage, ProblemDetails } from "../utils/errors";
 
 const monitorProvider = new MonitorProvider();
 const monitorService = new MonitorService(monitorProvider);
@@ -19,16 +19,11 @@ export class MonitorController {
 		const input = monitorSchema.safeParse(request.body);
 
 		if (!input.success) {
-			const error = input.error.errors.at(0);
-			return reply
-				.status(400)
-				.send(
-					new ProblemDetails(
-						ErrorMessage.INVALID_INPUT,
-						400,
-						`${error?.path}: ${error?.message}`,
-					),
-				);
+			const info = input.error.errors.at(0);
+			const error = new InvalidInputError(
+				`${info?.path}: ${info?.message}`,
+			);
+			return reply.status(error.status).send(error.toJSON());
 		}
 
 		try {
@@ -39,21 +34,7 @@ export class MonitorController {
 			);
 			return reply.status(201).send(monitor);
 		} catch (error: any) {
-			const duplicatedError = monitorService.isDuplicatedKeyError(error);
-
-			if (duplicatedError) {
-				return reply
-					.status(409)
-					.send(
-						new ProblemDetails(
-							ErrorMessage.DUPLICATED_KEY,
-							409,
-							duplicatedError.message,
-						),
-					);
-			}
-
-			return reply.status(500).send();
+			return reply.status(error.status).send(error.toJSON());
 		}
 	}
 }

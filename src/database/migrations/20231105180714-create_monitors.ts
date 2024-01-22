@@ -9,10 +9,10 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('name', 'varchar', col => col.notNull())
     .addColumn('url', 'varchar', col => col.notNull().unique())
     .addColumn('interval', 'integer', col => col.notNull().defaultTo(1)) // minutes
-    .addColumn('created_at', 'timestamp', col =>
+    .addColumn('createdAt', 'timestamp', col =>
       col.notNull().defaultTo(sql`now()`),
     )
-    .addColumn('updated_at', 'timestamp', col =>
+    .addColumn('updatedAt', 'timestamp', col =>
       col.notNull().defaultTo(sql`now()`),
     )
     .execute()

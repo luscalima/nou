@@ -1,5 +1,6 @@
 import fs from 'fs/promises'
 import path from 'path'
+import url from 'url'
 
 const migrationName = process.argv[2]
 const migrationTimestamp = new Date()
@@ -17,6 +18,9 @@ export async function down(db: Kysely<any>): Promise<void> {
   // Migration code
 }
 `
+
+const __filename = url.fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 const migrationsDir = path.join(
   __dirname,

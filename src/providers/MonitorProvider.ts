@@ -1,10 +1,21 @@
 import { db } from "../database";
+import { DuplicatedKeyError } from "../models/errors";
 import { Monitor } from "../models/Monitor";
 import type { MonitorRepository } from "../repositories/MonitorRepository";
 
 export class MonitorProvider implements MonitorRepository {
 	async create(monitor: Monitor) {
-		await db.insertInto("monitors").values(monitor).execute();
+		try {
+			await db.insertInto("monitors").values(monitor).execute();
+		} catch (error: any) {
+			const duplicatedError = this.isDuplicatedKeyError(error);
+
+			if (duplicatedError) {
+				throw new DuplicatedKeyError(duplicatedError.detail);
+			}
+
+			throw error;
+		}
 	}
 
 	async find(id: string) {
@@ -29,5 +40,17 @@ export class MonitorProvider implements MonitorRepository {
 			.set(monitor)
 			.where("id", "=", monitor.id)
 			.execute();
+	}
+
+	private isDuplicatedKeyError(error: any) {
+		if (error.code !== "23505") {
+			return;
+		}
+
+		const key = error?.constraint?.split("_")[1] ?? "Key value";
+
+		return {
+			detail: `${key} already exists`,
+		};
 	}
 }

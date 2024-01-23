@@ -1,6 +1,6 @@
 import { ErrorTitle, HttpStatus } from "../../utils";
 
-class AppError extends Error {
+export class AppError extends Error {
 	constructor(
 		public readonly title: string,
 		public readonly status: number,

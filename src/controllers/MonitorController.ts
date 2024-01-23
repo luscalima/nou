@@ -20,21 +20,15 @@ export class MonitorController {
 
 		if (!input.success) {
 			const info = input.error.errors.at(0);
-			const error = new InvalidInputError(
-				`${info?.path}: ${info?.message}`,
-			);
-			return reply.status(error.status).send(error.toJSON());
+			throw new InvalidInputError(`${info?.path}: ${info?.message}`);
 		}
 
-		try {
-			const monitor = await monitorService.create(
-				input.data.name,
-				input.data.url,
-				input.data.interval,
-			);
-			return reply.status(201).send(monitor);
-		} catch (error: any) {
-			return reply.status(error.status).send(error.toJSON());
-		}
+		const monitor = await monitorService.create(
+			input.data.name,
+			input.data.url,
+			input.data.interval,
+		);
+
+		return reply.status(201).send(monitor);
 	}
 }

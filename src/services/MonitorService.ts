@@ -17,6 +17,17 @@ export class MonitorService {
 		return monitor;
 	}
 
+	async update(
+		id: string,
+		name: string,
+		url: string,
+		interval: number,
+	): Promise<Monitor> {
+		const monitor = new Monitor(id, name, url, interval);
+		await this.provider.update(monitor);
+		return monitor;
+	}
+
 	isDuplicatedKeyError(error: any) {
 		if (error.code !== "23505") {
 			return;

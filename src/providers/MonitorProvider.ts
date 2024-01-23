@@ -35,11 +35,21 @@ export class MonitorProvider implements MonitorRepository {
 	}
 
 	async update(monitor: Monitor) {
-		await db
-			.updateTable("monitors")
-			.set(monitor)
-			.where("id", "=", monitor.id)
-			.execute();
+		try {
+			await db
+				.updateTable("monitors")
+				.set(monitor)
+				.where("id", "=", monitor.id)
+				.execute();
+		} catch (error: any) {
+			const duplicatedError = this.isDuplicatedKeyError(error);
+
+			if (duplicatedError) {
+				throw new DuplicatedKeyError(duplicatedError.detail);
+			}
+
+			throw error;
+		}
 	}
 
 	private isDuplicatedKeyError(error: any) {

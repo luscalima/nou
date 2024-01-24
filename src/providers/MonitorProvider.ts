@@ -36,9 +36,10 @@ export class MonitorProvider implements MonitorRepository {
 
 	async update(monitor: Monitor) {
 		try {
+			const updatedAt = new Date();
 			await db
 				.updateTable("monitors")
-				.set(monitor)
+				.set({ ...monitor, updatedAt })
 				.where("id", "=", monitor.id)
 				.execute();
 		} catch (error: any) {

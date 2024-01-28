@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
+import { PaginationSchema } from "../hooks";
 import { InvalidInputError } from "../models/errors";
 import { MonitorProvider } from "../providers/MonitorProvider";
 import { MonitorService } from "../services/MonitorService";
@@ -32,6 +33,22 @@ export class MonitorController {
 		);
 
 		return reply.status(201).send(monitor);
+	}
+
+	static async findAll(
+		request: FastifyRequest<{ Querystring: PaginationSchema }>,
+		reply: FastifyReply,
+	) {
+		const { page, limit } = request.query;
+		const monitors = await monitorService.findAll(page, limit);
+
+		return reply.status(HttpStatus.OK).send({
+			meta: {
+				page,
+				limit,
+			},
+			data: monitors,
+		});
 	}
 
 	static async update(request: FastifyRequest, reply: FastifyReply) {

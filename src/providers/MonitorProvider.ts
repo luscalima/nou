@@ -26,8 +26,13 @@ export class MonitorProvider implements MonitorRepository {
 			.executeTakeFirst();
 	}
 
-	async findAll() {
-		return await db.selectFrom("monitors").selectAll().execute();
+	async findAll(offset: number, limit: number) {
+		return await db
+			.selectFrom("monitors")
+			.select(["id", "name", "url", "interval"])
+			.limit(limit)
+			.offset(offset)
+			.execute();
 	}
 
 	async delete(id: string) {

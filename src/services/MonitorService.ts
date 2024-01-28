@@ -17,6 +17,12 @@ export class MonitorService {
 		return monitor;
 	}
 
+	async findAll(page: number, limit: number): Promise<Monitor[]> {
+		const offset = (page - 1) * limit;
+
+		return await this.provider.findAll(offset, limit);
+	}
+
 	async update(
 		id: string,
 		name: string,
@@ -26,17 +32,5 @@ export class MonitorService {
 		const monitor = new Monitor(id, name, url, interval);
 		await this.provider.update(monitor);
 		return monitor;
-	}
-
-	isDuplicatedKeyError(error: any) {
-		if (error.code !== "23505") {
-			return;
-		}
-
-		const key = error?.constraint?.split("_")[1] ?? "Key value";
-
-		return {
-			message: `${key} already exists`,
-		};
 	}
 }

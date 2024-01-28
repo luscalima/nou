@@ -35,6 +35,22 @@ export class MonitorController {
 		return reply.status(201).send(monitor);
 	}
 
+	static async find(
+		request: FastifyRequest<{ Params: { id: string } }>,
+		reply: FastifyReply,
+	) {
+		const id = z.string().uuid().safeParse(request.params.id);
+
+		if (!id.success) {
+			const info = id.error.errors.at(0);
+			throw new InvalidInputError(`id: ${info?.message}`);
+		}
+
+		const monitor = await monitorService.find(id.data);
+
+		return reply.status(HttpStatus.OK).send(monitor);
+	}
+
 	static async findAll(
 		request: FastifyRequest<{ Querystring: PaginationSchema }>,
 		reply: FastifyReply,

@@ -5,6 +5,7 @@ import { paginationHook } from "../hooks";
 
 export async function monitorRoutes(fastify: FastifyInstance) {
 	fastify.post("/", MonitorController.create);
+	fastify.get("/:id", MonitorController.find);
 	fastify.get(
 		"/",
 		{

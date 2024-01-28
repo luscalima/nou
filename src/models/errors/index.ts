@@ -45,3 +45,15 @@ export class DuplicatedKeyError extends AppError {
 		);
 	}
 }
+
+export class PaginationError extends AppError {
+	constructor(detail: string, type?: string, instance?: string) {
+		super(
+			ErrorTitle.PAGINATION_ERROR,
+			HttpStatus.BAD_REQUEST,
+			detail,
+			type,
+			instance,
+		);
+	}
+}

@@ -3,6 +3,7 @@ export enum ErrorTitle {
 	DUPLICATED_KEY = "Duplicated Key",
 	INTERNAL_SERVER_ERROR = "Internal Server Error",
 	PAGINATION_ERROR = "Pagination Error",
+	ENTITY_NOT_FOUND = "Entity Not Found",
 }
 
 export enum HttpStatus {
@@ -11,4 +12,5 @@ export enum HttpStatus {
 	BAD_REQUEST = 400,
 	CONFLICT = 409,
 	INTERNAL_SERVER_ERROR = 500,
+	NOT_FOUND = 404,
 }

@@ -57,3 +57,15 @@ export class PaginationError extends AppError {
 		);
 	}
 }
+
+export class NotFoundError extends AppError {
+	constructor(detail: string, type?: string, instance?: string) {
+		super(
+			ErrorTitle.ENTITY_NOT_FOUND,
+			HttpStatus.NOT_FOUND,
+			detail,
+			type,
+			instance,
+		);
+	}
+}

@@ -1,11 +1,11 @@
-import fastify from 'fastify'
+import fastify from "fastify";
 
-const app = fastify()
+import { registerRoutes } from "./routes";
 
-app.get('/', () => {
-  return { hello: 'word' }
-})
+const app = fastify();
+
+registerRoutes(app);
 
 await app.listen({
-  port: 3000,
-})
+	port: 3000,
+});

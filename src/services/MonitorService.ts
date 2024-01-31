@@ -44,4 +44,8 @@ export class MonitorService {
 		await this.provider.update(monitor);
 		return monitor;
 	}
+
+	async delete(id: string): Promise<void> {
+		await this.provider.delete(id);
+	}
 }

@@ -14,4 +14,9 @@ export async function monitorRoutes(fastify: FastifyInstance) {
 		MonitorController.findAll,
 	);
 	fastify.put("/", MonitorController.update);
+	fastify.delete(
+		"/:id",
+		{ preHandler: [idParamHook] },
+		MonitorController.delete,
+	);
 }

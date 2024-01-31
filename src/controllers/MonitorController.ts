@@ -81,4 +81,13 @@ export class MonitorController {
 
 		return reply.status(HttpStatus.OK).send(monitor);
 	}
+
+	static async delete(
+		request: FastifyRequest<{ Params: { id: string } }>,
+		reply: FastifyReply,
+	) {
+		await monitorService.delete(request.params.id);
+
+		return reply.status(HttpStatus.NO_CONTENT).send();
+	}
 }

@@ -1,11 +1,11 @@
 import { FastifyInstance } from "fastify";
 
 import { MonitorController } from "../controllers/MonitorController";
-import { paginationHook } from "../hooks";
+import { idParamHook, paginationHook } from "../hooks";
 
 export async function monitorRoutes(fastify: FastifyInstance) {
 	fastify.post("/", MonitorController.create);
-	fastify.get("/:id", MonitorController.find);
+	fastify.get("/:id", { preHandler: [idParamHook] }, MonitorController.find);
 	fastify.get(
 		"/",
 		{

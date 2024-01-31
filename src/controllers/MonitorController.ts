@@ -39,14 +39,7 @@ export class MonitorController {
 		request: FastifyRequest<{ Params: { id: string } }>,
 		reply: FastifyReply,
 	) {
-		const id = z.string().uuid().safeParse(request.params.id);
-
-		if (!id.success) {
-			const info = id.error.errors.at(0);
-			throw new InvalidInputError(`id: ${info?.message}`);
-		}
-
-		const monitor = await monitorService.find(id.data);
+		const monitor = await monitorService.find(request.params.id);
 
 		return reply.status(HttpStatus.OK).send(monitor);
 	}

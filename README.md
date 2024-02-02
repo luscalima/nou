@@ -24,7 +24,7 @@
     -   [Roadmap](#roadmap)
         -   [Version 0.1.0 (Upcoming release)](#version-010-upcoming-release)
         -   [Future plans](#future-plans)
-    -   [Contributing](#contributing)
+-   [Contributing](#contributing)
 
 ## Build with
 
@@ -115,7 +115,7 @@ This project implements a more simplified architecture in the MSC (Model, Servic
 -   Automation with CI/CD
 -   Community feedback
 
-### Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a new branch (feature branch method):

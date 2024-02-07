@@ -104,16 +104,16 @@ This project implements a more simplified architecture in the MSC (Model, Servic
 -   [ ] Monitoring
     -   [ ] Script to run cronjobs based on parameters.
     -   [ ] Service for cronjobs handling.
--   [ ] User interface
-    -   [ ] Monitor management
-    -   [ ] Contact management
--   [ ] Alert for contacts
-    -   [ ] Email sending
+-   [ ] User interface:
+    -   [ ] Monitor management.
+    -   [ ] Contact management.
+-   [ ] Alert for contacts:
+    -   [ ] Email sending.
 
 #### Future plans
 
--   Automation with CI/CD
--   Community feedback
+-   Automation with CI/CD.
+-   Community feedback.
 
 ## Contributing
 
@@ -131,4 +131,4 @@ $ git checkout -b feature/new-feature
 $ git push origin feature/new-feature
 ```
 
-5. Submit a pull request
+5. Submit a pull request.

@@ -3,6 +3,7 @@ import { FastifyInstance } from "fastify";
 
 import { AppError } from "../models/errors";
 // Routes
+import { contactRoutes } from "./contacts";
 import { monitorRoutes } from "./monitors";
 
 export function registerRoutes(app: FastifyInstance) {
@@ -19,4 +20,5 @@ export function registerRoutes(app: FastifyInstance) {
 		allowedHeaders: ["Content-Type", "Authorization"],
 	});
 	app.register(monitorRoutes, { prefix: "/monitors" });
+	app.register(contactRoutes, { prefix: "/contacts" });
 }

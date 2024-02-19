@@ -37,7 +37,6 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@fastify/cors": "^9.0.1",
     "dotenv": "^16.3.1",
     "fastify": "^4.25.2",
     "kysely": "^0.26.3",

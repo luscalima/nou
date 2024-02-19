@@ -1,7 +1,9 @@
+import cors from "@fastify/cors";
 import { FastifyInstance } from "fastify";
 
 import { AppError } from "../models/errors";
 // Routes
+import { contactRoutes } from "./contacts";
 import { monitorRoutes } from "./monitors";
 
 export function registerRoutes(app: FastifyInstance) {
@@ -12,6 +14,11 @@ export function registerRoutes(app: FastifyInstance) {
 
 		return reply.status(500).send({ error: "Internal Server Error" });
 	});
-
+	app.register(cors, {
+		origin: process.env.FRONT_URL || "localhost",
+		methods: ["GET", "POST", "PUT", "DELETE"],
+		allowedHeaders: ["Content-Type", "Authorization"],
+	});
 	app.register(monitorRoutes, { prefix: "/monitors" });
+	app.register(contactRoutes, { prefix: "/contacts" });
 }

@@ -4,17 +4,23 @@ import { z } from "zod";
 import { PaginationSchema } from "../hooks";
 import { InvalidInputError } from "../models/errors";
 import { MonitorProvider } from "../providers/MonitorProvider";
+import { NotificationProvider } from "../providers/NotificationProvider";
 import { MonitorService } from "../services/MonitorService";
 import { HttpStatus } from "../utils";
 
 const monitorProvider = new MonitorProvider();
-const monitorService = new MonitorService(monitorProvider);
+const notificationProvider = new NotificationProvider();
+const monitorService = new MonitorService(
+	monitorProvider,
+	notificationProvider,
+);
 
 const monitorSchema = z.object({
 	id: z.string().uuid().optional(),
 	name: z.string().min(3),
 	url: z.string().url(),
 	interval: z.number().positive(),
+	contacts: z.array(z.string().uuid()),
 });
 
 export class MonitorController {
@@ -30,6 +36,7 @@ export class MonitorController {
 			input.data.name,
 			input.data.url,
 			input.data.interval,
+			input.data.contacts,
 		);
 
 		return reply.status(201).send(monitor);

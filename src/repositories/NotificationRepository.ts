@@ -5,5 +5,5 @@ export interface NotificationRepository {
 	find(id: string): Promise<Notification | undefined>;
 	findAll(): Promise<Notification[]>;
 	delete(id: string): Promise<void>;
-	update(notification: Notification): Promise<void>;
+	update(monitorId: string, notifications: Notification[]): Promise<void>;
 }

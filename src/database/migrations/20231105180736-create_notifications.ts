@@ -5,10 +5,10 @@ export async function up(db: Kysely<any>): Promise<void> {
 		.createTable("notifications")
 		.addColumn("id", "uuid", col => col.primaryKey().notNull())
 		.addColumn("monitorId", "uuid", col =>
-			col.notNull().unique().references("monitors.id"),
+			col.notNull().references("monitors.id"),
 		)
 		.addColumn("contactId", "uuid", col =>
-			col.notNull().unique().references("contacts.id"),
+			col.notNull().references("contacts.id"),
 		)
 		.addColumn("createdAt", "timestamp", col =>
 			col.notNull().defaultTo(sql`now()`),
@@ -16,6 +16,7 @@ export async function up(db: Kysely<any>): Promise<void> {
 		.addColumn("updatedAt", "timestamp", col =>
 			col.notNull().defaultTo(sql`now()`),
 		)
+		.addUniqueConstraint("notify", ["monitorId", "contactId"])
 		.execute();
 }
 

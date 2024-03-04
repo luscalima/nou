@@ -22,11 +22,19 @@ export class NotificationProvider {
 		await db.deleteFrom("notifications").where("id", "=", id).execute();
 	}
 
-	async update(notification: Notification) {
-		await db
-			.updateTable("notifications")
-			.set(notification)
-			.where("id", "=", notification.id)
-			.execute();
+	async update(monitorId: string, notifications: Notification[]) {
+		await db.transaction().execute(async trx => {
+			await trx
+				.deleteFrom("notifications")
+				.where("monitorId", "=", monitorId)
+				.execute();
+			if (!notifications.length) {
+				return;
+			}
+			await trx
+				.insertInto("notifications")
+				.values(notifications)
+				.execute();
+		});
 	}
 }

@@ -84,6 +84,7 @@ export class MonitorController {
 			input.data.name,
 			input.data.url,
 			input.data.interval,
+			input.data.contacts,
 		);
 
 		return reply.status(HttpStatus.OK).send(monitor);

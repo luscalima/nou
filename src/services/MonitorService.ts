@@ -53,9 +53,15 @@ export class MonitorService {
 		name: string,
 		url: string,
 		interval: number,
+		contacts: string[],
 	): Promise<Monitor> {
 		const monitor = new Monitor(id, name, url, interval);
 		await this.monitorProvider.update(monitor);
+		const notifications = contacts.map(
+			contactId => new Notification(uuid(), monitor.id, contactId),
+		);
+		await this.notificationProvider.update(monitor.id, notifications);
+
 		return monitor;
 	}
 
